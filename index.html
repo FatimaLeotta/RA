@@ -111,7 +111,7 @@ function wk(n){if(!stateData[n])stateData[n]={estado:DEF[n]||'pendiente',entrega
 function mon(iso){const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()-3);return d;}
 function sun(iso){const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+3);return d;}
 function effThu(w){const s=stateData[w.n];return (s&&s.thu)?s.thu:w.thu;}function fxLabel(w){const s=stateData[w.n];return (s&&s.fecha)?s.fecha:w.dates;}function currentWeek(){const t=new Date();t.setHours(0,0,0,0);for(const w of DATA.weeks){const iso=effThu(w);if(t>=mon(iso)&&t<=sun(iso))return w;}return null;}
-function renderEditbar(){const eb=$('#editbar');if(STATIC){eb.innerHTML='🔒 Vista de solo lectura · mantenida por Fátima Leotta · actualizado 3 sep 2026';return;}
+function renderEditbar(){const eb=$('#editbar');if(STATIC){eb.innerHTML='Vista de solo lectura';return;}
   if(editMode){eb.innerHTML='<span class="ok">\uD83D\uDD13 Modo edición activo</span> <span>— tus cambios se guardan y se ven para todos.</span> <button class="btn solid" id="lockBtn">Bloquear</button>';
     $('#lockBtn').onclick=()=>{editMode=false;renderEditbar();renderBlocks();};}
   else{eb.innerHTML='<span>\uD83D\uDD12 <b>Solo lectura.</b> Los socios ven el avance; solo Fátima edita.</span> <button class="btn" id="editBtn">Editar</button>';
@@ -148,7 +148,7 @@ function renderBlocks(){const cur=currentWeek();const order=['intro','b1','b2','
         <td>${estadoSelect(w.n,s.estado)}</td>
         <td>${partHtml}</td>
         <td>${entHtml}</td>
-        <td style="text-align:center"><div class="chk ${s.entregado?'done':''} ${editMode?'editable':''}" data-chk="${w.n}">${s.entregado?'✓':''}</div></td></tr>`;}
+        <td style="text-align:center">${(w.entreg&&w.entreg!=='—')?`<div class="chk ${s.entregado?'done':''} ${editMode?'editable':''}" data-chk="${w.n}">${s.entregado?'✓':''}</div>`:''}</td></tr>`;}
     html+=`</tbody></table></div></div>`;}
   $('#blocks').innerHTML=html;
   document.querySelectorAll('.fx-label').forEach(el=>{el.onchange=async()=>{const s=wk(el.dataset.fx);s.fecha=el.value;await saveState();};});
