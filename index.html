@@ -158,5 +158,5 @@ function renderBlocks(){const cur=currentWeek();const order=['intro','b1','b2','
   updateProgress();}
 function fechaCell(w){const lbl=fxLabel(w);if(!editMode)return `<span>${lbl}</span>`;const iso=effThu(w);return `<input class="fx-label" data-fx="${w.n}" value="${(lbl||'').replace(/"/g,'&quot;')}">`+`<input type="date" class="fx-thu" data-fxd="${w.n}" value="${iso}">`+`<div class="fx-hint">ancla “estamos aquí”</div>`;}function estadoSelect(n,val){const dis=editMode?'':'disabled';const opts=STATES.map(s=>`<option value="${s}" ${s===val?'selected':''}>${LABEL[s]}</option>`).join('');return `<select class="estado est-${val}" data-est="${n}" ${dis}>${opts}</select>`;}
 function updateProgress(){const total=DATA.weeks.length;let ejec=0,ent=0;DATA.weeks.forEach(w=>{const s=stateData[w.n];if(s&&s.estado==='ejecutado')ejec++;if(s&&s.entregado)ent++;});const pct=Math.round(ejec/total*100);$('#progText').textContent=`${ejec} de ${total} semanas ejecutadas · ${ent} entregables entregados`;$('#progPct').textContent=pct+'%';$('#progFill').style.width=pct+'%';}
-(async()=>{await loadState();renderStatus();renderEditbar();renderBlocks();})();
+(async()=>{await loadState();stateData["1"]={estado:"ejecutado",entregado:true};stateData["2"]={estado:"coordinado",entregado:false};renderStatus();renderEditbar();renderBlocks();})();
 </script></body></html>
